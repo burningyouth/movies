@@ -11,9 +11,40 @@ interface MovieInterface {
   adult: boolean;
 }
 
+interface GenreInterface {
+  id: number;
+  name: string;
+}
+
 interface MoviesInterface {
   total: number;
   items: Array<Movie>;
 }
 
-export { MovieInterface, MoviesInterface };
+interface FetchAction {
+  type: string;
+  status: string;
+  query?: string;
+  page?: number;
+  error?: string;
+}
+
+interface ReceiveAction {
+  type: string;
+  movies?: MoviesInterface;
+  genres?: Array<GenreInterface>;
+}
+
+interface QueryUpdateAction {
+  type: string;
+  query: string;
+}
+
+export {
+  MovieInterface,
+  MoviesInterface,
+  FetchAction,
+  ReceiveAction,
+  GenreInterface,
+  QueryUpdateAction,
+};
