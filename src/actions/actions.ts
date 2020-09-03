@@ -2,47 +2,51 @@ import * as ActionTypes from './actionTypes';
 
 function requestMovies(query: string, page: number) {
   return {
-    type: ActionTypes.FETCH_MOVIES,
-    status: 'REQUEST',
-    page,
-    query,
+    type: ActionTypes.FETCH_MOVIES_REQUEST,
+    payload: {
+      page,
+      query,
+    },
   };
 }
 
 function successFetchingMovies() {
   return {
-    type: ActionTypes.FETCH_MOVIES,
-    status: 'SUCCESS',
+    type: ActionTypes.FETCH_MOVIES_SUCCESS,
   };
 }
 
 function failFetchingMovies(error: string) {
   return {
-    type: ActionTypes.FETCH_MOVIES,
-    status: 'ERROR',
-    error,
+    type: ActionTypes.FETCH_MOVIES_ERROR,
+    payload: new Error(error),
+    error: true,
   };
 }
 
 function failFetchingGenres(error: string) {
   return {
-    type: ActionTypes.FETCH_GENRES,
-    status: 'ERROR',
-    error,
+    type: ActionTypes.FETCH_GENRES_ERROR,
+    payload: new Error(error),
+    error: true,
   };
 }
 
 function receiveMovies(json: JSON) {
   return {
     type: ActionTypes.RECEIVE_MOVIES,
-    movies: JSON.parse(JSON.stringify(json)),
+    payload: {
+      movies: JSON.parse(JSON.stringify(json)),
+    },
   };
 }
 
 function receiveGenres(json: JSON) {
   return {
     type: ActionTypes.RECEIVE_GENRES,
-    genres: JSON.parse(JSON.stringify(json)),
+    payload: {
+      genres: JSON.parse(JSON.stringify(json)),
+    },
   };
 }
 

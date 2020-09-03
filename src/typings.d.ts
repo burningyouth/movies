@@ -21,30 +21,23 @@ interface MoviesInterface {
   items: Array<Movie>;
 }
 
-interface FetchAction {
-  type: string;
-  status: string;
-  query?: string;
-  page?: number;
-  error?: string;
-}
-
-interface ReceiveAction {
-  type: string;
+interface MoviePayload {
   movies?: MoviesInterface;
-  genres?: Array<GenreInterface>;
+  genres: Array<GenreInterface>;
+  page?: number;
+  query?: string;
 }
 
-interface QueryUpdateAction {
+interface Action {
   type: string;
-  query: string;
+  payload: MoviePayload | Error;
+  error: boolean;
 }
 
 export {
   MovieInterface,
   MoviesInterface,
-  FetchAction,
-  ReceiveAction,
+  Action,
+  MoviePayload,
   GenreInterface,
-  QueryUpdateAction,
 };

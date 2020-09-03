@@ -1,49 +1,50 @@
-import { combineReducers, Action } from 'redux';
+import { combineReducers } from 'redux';
 import * as ActionTypes from '../actions/actionTypes';
-import { FetchAction, ReceiveAction } from '../typings';
+import { Action, MoviePayload } from '../typings';
 
-function movies(state = {}, action: FetchAction | ReceiveAction) {
+function movies(state = {}, action: Action) {
   switch (action.type) {
-    case ActionTypes.FETCH_MOVIES:
-      switch ((action as FetchAction).status) {
-        case 'REQUEST':
-          return Object.assign({}, state, {
-            isFetching: true,
-          });
-        case 'SUCCESS':
-          return Object.assign({}, state, {
-            isFetching: false,
-          });
-        case 'ERROR':
-          return Object.assign({}, state, {
-            isFetching: false,
-            error: (action as FetchAction).error,
-          });
-      }
-    case ActionTypes.RECEIVE_MOVIES:
-      return Object.assign({}, state, {
+    case ActionTypes.FETCH_MOVIES_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+      };
+    case ActionTypes.FETCH_MOVIES_SUCCESS:
+      return {
+        ...state,
         isFetching: false,
-        movies: (action as ReceiveAction).movies,
-      });
+      };
+    case ActionTypes.FETCH_MOVIES_ERROR:
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload,
+      };
+    case ActionTypes.RECEIVE_MOVIES:
+      return {
+        ...state,
+        isFetching: false,
+        movies: (action.payload as MoviePayload).movies,
+      };
     default:
       return state;
   }
 }
 
-function genres(state = {}, action: FetchAction | ReceiveAction) {
+function genres(state = {}, action: Action) {
   switch (action.type) {
-    case ActionTypes.FETCH_GENRES:
-      if ((action as FetchAction).status === 'ERROR') {
-        return Object.assign({}, state, {
-          isFetching: false,
-          error: (action as FetchAction).error,
-        });
-      }
-    case ActionTypes.RECEIVE_GENRES:
-      return Object.assign({}, state, {
+    case ActionTypes.FETCH_GENRES_ERROR:
+      return {
+        ...state,
         isFetching: false,
-        genres: (action as ReceiveAction).genres,
-      });
+        error: action.payload,
+      };
+    case ActionTypes.RECEIVE_GENRES:
+      return {
+        ...state,
+        isFetching: false,
+        genres: (action.payload as MoviePayload).genres,
+      };
     default:
       return state;
   }
