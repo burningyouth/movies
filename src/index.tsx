@@ -29,8 +29,6 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunkMiddleware)),
 );
 
-// store.dispatch(fetchMovies());
-
 ReactDOM.render(
   <Provider store={store}>
     <Router>

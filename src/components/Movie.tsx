@@ -81,7 +81,11 @@ function Movie({ movie }: { movie: MovieEntity }) {
       <Card>
         <Link to={`/detail/${movie.id}`} className={link}>
           <CardActionArea className={actionArea}>
-            <CardMedia className={media} title="Movie poster" />
+            <CardMedia
+              className={media}
+              title="Movie poster"
+              src="/notfound.jpg"
+            />
             <CardContent className={mainContent}>
               <Typography gutterBottom variant="h5" component="h2">
                 {movie.title}

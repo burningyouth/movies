@@ -3,7 +3,6 @@ import * as ActionTypes from '../actions/actionTypes';
 import {
   MovieAction,
   MoviesState,
-  QueryUpdateAction,
   MovieState,
   MoviesAction,
   SearchAction,
@@ -47,7 +46,7 @@ const movies = (
         ...state,
         isFetching: false,
         total: action.payload.result.total,
-        page: Math.ceil((action.payload.result.offset + 1) / 9),
+        page: Math.ceil(newItems.length / 9),
         totalPages: Math.ceil(action.payload.result.total / 9),
         movies: newItems,
       };
@@ -88,6 +87,17 @@ const searchInfo = (
       return {
         ...state,
         query: action.payload.query,
+      };
+    case ActionTypes.SEARCH_BY_UPDATE:
+      return {
+        ...state,
+        searchBy: action.payload.searchBy,
+      };
+
+    case ActionTypes.SORT_BY_UPDATE:
+      return {
+        ...state,
+        sortBy: action.payload.sortBy,
       };
     default:
       return state;

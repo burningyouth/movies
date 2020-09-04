@@ -26,12 +26,34 @@ const useStyles = makeStyles({
   },
 });
 
-function SearchBar({ query }: { query: string }) {
+function SearchBar({
+  query,
+  searchBy,
+  sortBy,
+  setSearchBy,
+  setSortBy,
+  setQuery,
+}: {
+  query: string;
+  searchBy: string;
+  sortBy: string;
+  setSearchBy: Function;
+  setSortBy: Function;
+  setQuery: Function;
+}) {
   const classes = useStyles();
-  const [queryValue, setQuery] = useState(query);
+  const [queryValue, setQueryValue] = useState(query);
   return (
     <React.Fragment>
-      <form action={`/search/${queryValue}`} noValidate autoComplete="off">
+      <form
+        action={`/search/${queryValue}`}
+        noValidate
+        autoComplete="off"
+        onSubmit={(e) => {
+          e.preventDefault();
+          setQuery(queryValue);
+        }}
+      >
         <Grid
           container
           spacing={3}
@@ -45,7 +67,7 @@ function SearchBar({ query }: { query: string }) {
               className={classes.textField}
               onChange={(e) => {
                 e.preventDefault();
-                setQuery(e.target.value);
+                setQueryValue(e.target.value);
               }}
             />
           </Grid>
@@ -69,15 +91,21 @@ function SearchBar({ query }: { query: string }) {
       >
         <Grid item xs={2}>
           <Button
-            variant="contained"
+            variant={searchBy === 'title' ? 'contained' : 'outlined'}
             color="primary"
             className={classes.button}
+            onClick={() => setSearchBy('title')}
           >
             Title
           </Button>
         </Grid>
         <Grid item xs={2}>
-          <Button variant="outlined" color="primary" className={classes.button}>
+          <Button
+            variant={searchBy === 'genres' ? 'contained' : 'outlined'}
+            color="primary"
+            className={classes.button}
+            onClick={() => setSearchBy('genres')}
+          >
             Genre
           </Button>
         </Grid>
@@ -90,17 +118,23 @@ function SearchBar({ query }: { query: string }) {
             Sort by
           </Typography>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item md={3} lg={2}>
           <Button
-            variant="contained"
+            variant={sortBy === 'release_date' ? 'contained' : 'outlined'}
             color="primary"
             className={classes.button}
+            onClick={() => setSortBy('release_date')}
           >
             RELEASE DATE
           </Button>
         </Grid>
         <Grid item xs={2}>
-          <Button variant="outlined" color="primary" className={classes.button}>
+          <Button
+            variant={sortBy === 'average_rating' ? 'contained' : 'outlined'}
+            color="primary"
+            className={classes.button}
+            onClick={() => setSortBy('average_rating')}
+          >
             RATING
           </Button>
         </Grid>

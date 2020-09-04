@@ -20,12 +20,7 @@ type Movies = {
   limit: number;
 };
 
-type QueryUpdateAction = {
-  type: 'QUERY_UPDATE';
-  payload: {
-    query: string;
-  };
-};
+// Actions
 
 type MovieActionStart = {
   type: 'FETCH_MOVIES_START' | 'FETCH_MOVIE_START';
@@ -52,9 +47,32 @@ type MovieActionSuccess = {
   };
 };
 
+type QueryUpdateAction = {
+  type: 'QUERY_UPDATE';
+  payload: {
+    query: string;
+  };
+};
+
+type SearchUpdateAction = {
+  type: 'SEARCH_BY_UPDATE';
+  payload: {
+    searchBy: string;
+  };
+};
+
+type SortUpdateAction = {
+  type: 'SORT_BY_UPDATE';
+  payload: {
+    sortBy: string;
+  };
+};
+
 type MoviesAction = MovieActionStart | MoviesActionSuccess | MovieActionFailure;
 type MovieAction = MovieActionStart | MovieActionSuccess | MovieActionFailure;
-type SearchAction = QueryUpdateAction;
+type SearchAction = QueryUpdateAction | SearchUpdateAction | SortUpdateAction;
+
+// States
 
 type MoviesState = {
   isFetching: boolean;
@@ -79,16 +97,18 @@ type SearchState = {
 
 export {
   Movies,
+  MovieEntity,
+  MovieAction,
   MovieActionStart,
   MovieActionSuccess,
   MoviesActionSuccess,
   MovieActionFailure,
   MoviesAction,
-  MovieState,
-  MovieAction,
-  MovieEntity,
-  MoviesState,
   QueryUpdateAction,
+  SearchUpdateAction,
+  SortUpdateAction,
   SearchAction,
+  MovieState,
+  MoviesState,
   SearchState,
 };

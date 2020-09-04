@@ -11,7 +11,7 @@ const useStyles = makeStyles({
   },
 });
 
-function CustomBackdrop({ open }: { open: boolean }) {
+function CenteredBackdrop({ open }: { open: boolean }) {
   const { root } = useStyles();
   return (
     <Backdrop className={root} open={open}>
@@ -20,4 +20,4 @@ function CustomBackdrop({ open }: { open: boolean }) {
   );
 }
 
-export default CustomBackdrop;
+export default CenteredBackdrop;

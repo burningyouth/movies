@@ -4,15 +4,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import LoadMoreButton from '../components/LoadMoreButton';
 import { RootState } from '..';
 import { fetchMovies } from '../actions/actions';
+import CenteredProgress from '../components/CenteredProgress';
 
 function LoadMoreButtonContainer() {
   const dispatch = useDispatch();
   const moviesState = useSelector((state: RootState) => state.movies);
-  if (moviesState.page === moviesState.totalPages) return <React.Fragment />;
+  if (moviesState.isFetching) return <CenteredProgress />;
+  if (moviesState.total === moviesState.movies.length)
+    return <React.Fragment />;
   return (
     <LoadMoreButton
-      isFetching={moviesState.isFetching}
-      page={moviesState.page}
+      handleClick={() => dispatch(fetchMovies(moviesState.page + 1))}
     />
   );
 }

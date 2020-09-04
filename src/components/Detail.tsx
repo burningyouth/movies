@@ -55,7 +55,11 @@ function Detail({ movie }: { movie: MovieEntity }) {
     <Container maxWidth="lg">
       <Grid container spacing={3} className={root}>
         <Grid item xs={4}>
-          <CardMedia className={media} title="Movie poster" />
+          <CardMedia
+            className={media}
+            title="Movie poster"
+            src="/notfound.jpg"
+          />
         </Grid>
         <Grid item xs>
           <Typography gutterBottom variant="h4" component="h2">

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Button from '@material-ui/core/Button';
+import { CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles({
   root: {
@@ -15,16 +15,13 @@ const useStyles = makeStyles({
   },
 });
 
-function LoadMoreButton({ handleClick }: { handleClick: Function }) {
+function CenteredProgress() {
   const { root } = useStyles();
-
   return (
     <div className={root}>
-      <Button variant="outlined" color="primary" onClick={() => handleClick()}>
-        Load more
-      </Button>
+      <CircularProgress />
     </div>
   );
 }
 
-export default LoadMoreButton;
+export default CenteredProgress;

@@ -1,18 +1,39 @@
 import * as ActionTypes from './actionTypes';
 import {
+  QueryUpdateAction,
   MovieActionStart,
   MovieActionSuccess,
   MovieActionFailure,
   MoviesActionSuccess,
   Movies,
   MovieEntity,
+  SortUpdateAction,
+  SearchUpdateAction,
 } from '../typings';
 
-function queryUpdate(query: string = '') {
+function queryUpdate(query: string = ''): QueryUpdateAction {
   return {
     type: ActionTypes.QUERY_UPDATE,
     payload: {
       query,
+    },
+  };
+}
+
+function sortByUpdate(sortBy: string = ''): SortUpdateAction {
+  return {
+    type: ActionTypes.SORT_BY_UPDATE,
+    payload: {
+      sortBy,
+    },
+  };
+}
+
+function searchByUpdate(searchBy: string = ''): SearchUpdateAction {
+  return {
+    type: ActionTypes.SEARCH_BY_UPDATE,
+    payload: {
+      searchBy,
     },
   };
 }
@@ -76,7 +97,7 @@ function fetchMovies(page: number = 1) {
     const fetchUrl = query
       ? `https://reactjs-cdp.herokuapp.com/movies?search=${query}&searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`
       : `https://reactjs-cdp.herokuapp.com/movies?searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`;
-    console.log(fetchUrl);
+
     return fetch(fetchUrl)
       .then(
         (response) => response.json(),
@@ -108,17 +129,4 @@ function fetchMovie(id: number) {
   };
 }
 
-// function fetchGenres() {
-//   return function (dispatch: Function) {
-//     const apiKey = '91c9490dd0cbb25acb7c4e34b9da2471';
-//     const fetchUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`;
-//     return fetch(fetchUrl)
-//       .then(
-//         (response) => response.json(),
-//         (error) => dispatch(failFetchingGenres(error)),
-//       )
-//       .then((json) => dispatch(receiveGenres(json)));
-//   };
-// }
-
-export { fetchMovies, fetchMovie, queryUpdate };
+export { fetchMovies, fetchMovie, queryUpdate, sortByUpdate, searchByUpdate };
