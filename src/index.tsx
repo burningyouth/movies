@@ -1,16 +1,18 @@
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
+
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createStore, applyMiddleware, Action, compose } from 'redux';
-import rootReducer from './reducers/reducers';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
+import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import rootReducer from './reducers/reducers';
 
 import MainContainer from './containers/MainContainer';
 import DetailContainer from './containers/DetailContainer';
+import FetchMovies from './containers/FetchMovies';
 import Header from './components/Header';
-import * as serviceWorker from './serviceWorker';
-import { Provider } from 'react-redux';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -32,6 +34,7 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <Router>
+      <Route component={FetchMovies} />
       <Route component={Header} />
       <Switch>
         <Route exact path="/" component={MainContainer} />

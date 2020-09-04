@@ -21,6 +21,7 @@ const useStyles = makeStyles({
   },
   mainContent: {
     height: 120,
+    width: 'calc(100% - 32px)',
   },
   link: {
     textDecoration: 'none',
@@ -94,7 +95,12 @@ function Movie({ movie }: { movie: MovieEntity }) {
             </CardContent>
             <div className={genresWrapper}>
               <Divider light />
-              <div className={genres}>{genresComponents}</div>
+              <div className={genres}>
+                {genresComponents}
+                {movie.genres.length > 3 && (
+                  <Chip size="small" label="···" className={chip} key="···" />
+                )}
+              </div>
             </div>
           </CardActionArea>
         </Link>

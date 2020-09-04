@@ -93,6 +93,8 @@ type SearchState = {
   query: string;
   searchBy: string;
   sortBy: string;
+  limit: number;
+  sortOrder: 'desc' | 'asc';
 };
 
 export {

@@ -26,7 +26,9 @@ const initialMovieState = {
 
 const initialSearchState = {
   query: '',
+  limit: 9,
   sortBy: 'release_date',
+  sortOrder: 'desc',
   searchBy: 'title',
 } as SearchState;
 

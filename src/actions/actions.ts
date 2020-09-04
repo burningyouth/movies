@@ -90,13 +90,16 @@ function fetchMovies(page: number = 1) {
   return function (dispatch: any, getState: any) {
     dispatch(fetchMoviesStart());
 
-    const pageParams = `&offset=${(page - 1) * 9}&limit=9`;
-    const query = getState().searchInfo.query,
-      sortBy = getState().searchInfo.sortBy,
-      searchBy = getState().searchInfo.searchBy;
+    const searchInfo = getState().searchInfo;
+    const query = searchInfo.query,
+      sortBy = searchInfo.sortBy,
+      searchBy = searchInfo.searchBy,
+      sortOrder = searchInfo.sortOrder,
+      limit = searchInfo.limit;
+    const pageParams = `&offset=${(page - 1) * limit}&limit=${limit}`;
     const fetchUrl = query
-      ? `https://reactjs-cdp.herokuapp.com/movies?search=${query}&searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`
-      : `https://reactjs-cdp.herokuapp.com/movies?searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`;
+      ? `https://reactjs-cdp.herokuapp.com/movies?search=${query}&sortOrder=${sortOrder}&searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`
+      : `https://reactjs-cdp.herokuapp.com/movies?searchBy=${searchBy}&sortOrder=${sortOrder}&sortBy=${sortBy}${pageParams}`;
 
     return fetch(fetchUrl)
       .then(

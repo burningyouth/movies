@@ -130,10 +130,10 @@ function SearchBar({
         </Grid>
         <Grid item xs={2}>
           <Button
-            variant={sortBy === 'average_rating' ? 'contained' : 'outlined'}
+            variant={sortBy === 'vote_average' ? 'contained' : 'outlined'}
             color="primary"
             className={classes.button}
-            onClick={() => setSortBy('average_rating')}
+            onClick={() => setSortBy('vote_average')}
           >
             RATING
           </Button>
