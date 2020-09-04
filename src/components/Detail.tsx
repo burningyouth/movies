@@ -18,6 +18,7 @@ const useStyles = makeStyles({
   },
   chip: {
     marginRight: 10,
+    marginBottom: 10,
   },
 });
 
@@ -80,7 +81,9 @@ function Detail({ movie }: { movie: MovieEntity }) {
             component="h4"
             color="textSecondary"
           >
-            Avg. rating: {movie.vote_average} / 10
+            {movie.vote_average
+              ? `Avg. rating: ${movie.vote_average} / 10`
+              : 'Not enough votes'}
           </Typography>
           <div className={genresWrapper}>{genresComponents}</div>
         </Grid>
