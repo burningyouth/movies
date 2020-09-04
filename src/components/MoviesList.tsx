@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import Movie from './Movie';
-import { MovieInterface } from '../typings';
+import { MovieEntity } from '../typings';
+import LoadMoreButtonContainer from '../containers/LoadMoreButtonContainer';
 
 const useStyles = makeStyles({
   root: {
@@ -12,15 +13,19 @@ const useStyles = makeStyles({
   },
 });
 
-function MoviesList({ movies }: { movies: Array<MovieInterface> }) {
+function MoviesList({ movies }: { movies: Array<MovieEntity> }) {
   const movieComponents = movies.map((movie) => {
     return <Movie movie={movie} key={movie.id} />;
   });
   const { root } = useStyles();
+
   return (
-    <Grid container spacing={3} className={root}>
-      {movieComponents}
-    </Grid>
+    <React.Fragment>
+      <Grid container spacing={3} className={root}>
+        {movieComponents}
+      </Grid>
+      <LoadMoreButtonContainer />
+    </React.Fragment>
   );
 }
 

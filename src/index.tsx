@@ -1,29 +1,47 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, Action, compose } from 'redux';
 import rootReducer from './reducers/reducers';
-import thunkMiddleware from 'redux-thunk';
+import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 
-import Main from './components/Main';
-import Detail from './components/Detail';
+import MainContainer from './containers/MainContainer';
+import DetailContainer from './containers/DetailContainer';
 import Header from './components/Header';
 import * as serviceWorker from './serviceWorker';
-import { fetchMovies } from './actions/actions';
+import { Provider } from 'react-redux';
 
-const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+export type RootState = ReturnType<typeof rootReducer>;
 
-store.dispatch(fetchMovies()).then(() => console.log(store.getState()));
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
+
+//@ts-ignore
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunkMiddleware)),
+);
+
+// store.dispatch(fetchMovies());
 
 ReactDOM.render(
-  <Router>
-    <Route component={Header} />
-    <Switch>
-      <Route exact path="/" component={Main} />
-      <Route path="/search/:query?" component={Main} />
-      <Route path="/detail/:id?" component={Detail} />
-    </Switch>
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <Route component={Header} />
+      <Switch>
+        <Route exact path="/" component={MainContainer} />
+        <Route path="/search/:query?" component={MainContainer} />
+        <Route path="/detail/:id?" component={DetailContainer} />
+      </Switch>
+    </Router>
+  </Provider>,
   document.getElementById('root'),
 );
 

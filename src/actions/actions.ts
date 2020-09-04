@@ -1,93 +1,124 @@
 import * as ActionTypes from './actionTypes';
+import {
+  MovieActionStart,
+  MovieActionSuccess,
+  MovieActionFailure,
+  MoviesActionSuccess,
+  Movies,
+  MovieEntity,
+} from '../typings';
 
-function requestMovies(query: string, page: number) {
+function queryUpdate(query: string = '') {
   return {
-    type: ActionTypes.FETCH_MOVIES_REQUEST,
+    type: ActionTypes.QUERY_UPDATE,
     payload: {
-      page,
       query,
     },
   };
 }
 
-function successFetchingMovies() {
+function fetchMoviesStart(): MovieActionStart {
+  return {
+    type: ActionTypes.FETCH_MOVIES_START,
+  };
+}
+
+function fetchMovieStart(): MovieActionStart {
+  return {
+    type: ActionTypes.FETCH_MOVIE_START,
+  };
+}
+
+function fetchMoviesSuccess(result: Movies): MoviesActionSuccess {
   return {
     type: ActionTypes.FETCH_MOVIES_SUCCESS,
-  };
-}
-
-function failFetchingMovies(error: string) {
-  return {
-    type: ActionTypes.FETCH_MOVIES_ERROR,
-    payload: new Error(error),
-    error: true,
-  };
-}
-
-function failFetchingGenres(error: string) {
-  return {
-    type: ActionTypes.FETCH_GENRES_ERROR,
-    payload: new Error(error),
-    error: true,
-  };
-}
-
-function receiveMovies(json: JSON) {
-  return {
-    type: ActionTypes.RECEIVE_MOVIES,
     payload: {
-      movies: JSON.parse(JSON.stringify(json)),
+      result,
     },
   };
 }
 
-function receiveGenres(json: JSON) {
+function fetchMovieSuccess(result: MovieEntity): MovieActionSuccess {
   return {
-    type: ActionTypes.RECEIVE_GENRES,
+    type: ActionTypes.FETCH_MOVIE_SUCCESS,
     payload: {
-      genres: JSON.parse(JSON.stringify(json)),
+      result,
     },
   };
 }
 
-function fetchMovies(query: string = '', page: number = 1) {
-  return function (dispatch: Function) {
-    dispatch(requestMovies(query, page));
+function fetchMoviesFailure(error: string): MovieActionFailure {
+  return {
+    type: ActionTypes.FETCH_MOVIES_FAILURE,
+    payload: {
+      error: new Error(error),
+    },
+  };
+}
 
-    const apiKey = '91c9490dd0cbb25acb7c4e34b9da2471';
+function fetchMovieFailure(error: string): MovieActionFailure {
+  return {
+    type: ActionTypes.FETCH_MOVIE_FAILURE,
+    payload: {
+      error: new Error(error),
+    },
+  };
+}
+
+function fetchMovies(page: number = 1) {
+  return function (dispatch: any, getState: any) {
+    dispatch(fetchMoviesStart());
+
+    const pageParams = `&offset=${(page - 1) * 9}&limit=9`;
+    const query = getState().searchInfo.query,
+      sortBy = getState().searchInfo.sortBy,
+      searchBy = getState().searchInfo.searchBy;
     const fetchUrl = query
-      ? `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&page=${page}&include_adult=true`
-      : `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}&page=${page}`;
-    return fetch(fetchUrl)
-      .then(
-        (response) => {
-          dispatch(successFetchingMovies());
-          return response.json();
-        },
-        (error) => dispatch(failFetchingMovies(error)),
-      )
-      .then((json) => dispatch(receiveMovies(json)));
-  };
-}
-
-function fetchGenres() {
-  return function (dispatch: Function) {
-    const apiKey = '91c9490dd0cbb25acb7c4e34b9da2471';
-    const fetchUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`;
+      ? `https://reactjs-cdp.herokuapp.com/movies?search=${query}&searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`
+      : `https://reactjs-cdp.herokuapp.com/movies?searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`;
+    console.log(fetchUrl);
     return fetch(fetchUrl)
       .then(
         (response) => response.json(),
-        (error) => dispatch(failFetchingGenres(error)),
+        (error) => {
+          dispatch(fetchMoviesFailure(error));
+        },
       )
-      .then((json) => dispatch(receiveGenres(json)));
+      .then((response) => {
+        dispatch(fetchMoviesSuccess(response));
+      });
   };
 }
 
-export {
-  requestMovies,
-  successFetchingMovies,
-  failFetchingMovies,
-  receiveMovies,
-  fetchMovies,
-  fetchGenres,
-};
+function fetchMovie(id: number) {
+  return function (dispatch: any) {
+    dispatch(fetchMovieStart());
+
+    const fetchUrl = `https://reactjs-cdp.herokuapp.com/movies/${id}`;
+    return fetch(fetchUrl)
+      .then(
+        (response) => response.json(),
+        (error) => {
+          dispatch(fetchMovieFailure(error));
+        },
+      )
+      .then((response) => {
+        dispatch(fetchMovieSuccess(response));
+      });
+  };
+}
+
+// function fetchGenres() {
+//   return function (dispatch: Function) {
+//     const apiKey = '91c9490dd0cbb25acb7c4e34b9da2471';
+//     const fetchUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`;
+//     return fetch(fetchUrl)
+//       .then(
+//         (response) => response.json(),
+//         (error) => dispatch(failFetchingGenres(error)),
+//       )
+//       .then((json) => dispatch(receiveGenres(json)));
+//   };
+// }
+
+export { fetchMovies, fetchMovie, queryUpdate };

@@ -10,7 +10,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Error({ message }: { message: string }) {
+function Error({ message }: { message: any }) {
   const { root } = useStyles();
   return (
     <Container maxWidth="lg" className={root}>
