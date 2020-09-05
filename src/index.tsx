@@ -33,8 +33,8 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
+    <FetchMovies />
     <Router>
-      <Route component={FetchMovies} />
       <Route component={Header} />
       <Switch>
         <Route exact path="/" component={MainContainer} />

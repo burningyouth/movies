@@ -81,8 +81,18 @@ function Detail({ movie }: { movie: MovieEntity }) {
             component="h4"
             color="textSecondary"
           >
+            Budget:{' '}
+            {movie.budget ? `$${movie.budgetString}` : 'Not enough information'}
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="body2"
+            component="h4"
+            color="textSecondary"
+          >
+            Rating:{' '}
             {movie.vote_average
-              ? `Avg. rating: ${movie.vote_average} / 10`
+              ? `${movie.vote_average} / 10 (${movie.vote_count} votes)`
               : 'Not enough votes'}
           </Typography>
           <div className={genresWrapper}>{genresComponents}</div>

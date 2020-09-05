@@ -11,6 +11,7 @@ type MovieEntity = {
   revenue: number;
   runtime: number;
   genres: string[];
+  budgetString?: string;
 };
 
 type Movies = {
@@ -18,6 +19,16 @@ type Movies = {
   total: number;
   offset: number;
   limit: number;
+};
+
+type SortOptions = {
+  id: string;
+  title: string;
+  vote_count: string;
+  vote_average: string;
+  release_date: string;
+  overview: string;
+  budget: string;
 };
 
 // Actions
@@ -64,13 +75,32 @@ type SearchUpdateAction = {
 type SortUpdateAction = {
   type: 'SORT_BY_UPDATE';
   payload: {
-    sortBy: string;
+    sortBy: keyof SortOptions;
+  };
+};
+
+type SortOptionsUpdateAction = {
+  type: 'SORT_OPTIONS_UPDATE';
+  payload: {
+    sortOptions: SortOptions;
+  };
+};
+
+type SortOrderUpdateAction = {
+  type: 'SORT_ORDER_UPDATE';
+  payload: {
+    sortOrder: 'desc' | 'asc';
   };
 };
 
 type MoviesAction = MovieActionStart | MoviesActionSuccess | MovieActionFailure;
 type MovieAction = MovieActionStart | MovieActionSuccess | MovieActionFailure;
-type SearchAction = QueryUpdateAction | SearchUpdateAction | SortUpdateAction;
+type SearchAction =
+  | QueryUpdateAction
+  | SearchUpdateAction
+  | SortUpdateAction
+  | SortOptionsUpdateAction
+  | SortOrderUpdateAction;
 
 // States
 
@@ -92,7 +122,8 @@ type MovieState = {
 type SearchState = {
   query: string;
   searchBy: string;
-  sortBy: string;
+  sortOptions: SortOptions;
+  sortBy: keyof SortOptions;
   limit: number;
   sortOrder: 'desc' | 'asc';
 };
@@ -100,6 +131,7 @@ type SearchState = {
 export {
   Movies,
   MovieEntity,
+  SortOptions,
   MovieAction,
   MovieActionStart,
   MovieActionSuccess,
@@ -109,6 +141,8 @@ export {
   QueryUpdateAction,
   SearchUpdateAction,
   SortUpdateAction,
+  SortOptionsUpdateAction,
+  SortOrderUpdateAction,
   SearchAction,
   MovieState,
   MoviesState,

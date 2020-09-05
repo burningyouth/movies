@@ -9,9 +9,12 @@ import {
   MovieEntity,
   SortUpdateAction,
   SearchUpdateAction,
+  SortOptionsUpdateAction,
+  SortOrderUpdateAction,
+  SortOptions,
 } from '../typings';
 
-function queryUpdate(query: string = ''): QueryUpdateAction {
+function queryUpdate(query = ''): QueryUpdateAction {
   return {
     type: ActionTypes.QUERY_UPDATE,
     payload: {
@@ -20,7 +23,7 @@ function queryUpdate(query: string = ''): QueryUpdateAction {
   };
 }
 
-function sortByUpdate(sortBy: string = ''): SortUpdateAction {
+function sortByUpdate(sortBy: keyof SortOptions): SortUpdateAction {
   return {
     type: ActionTypes.SORT_BY_UPDATE,
     payload: {
@@ -29,7 +32,27 @@ function sortByUpdate(sortBy: string = ''): SortUpdateAction {
   };
 }
 
-function searchByUpdate(searchBy: string = ''): SearchUpdateAction {
+function sortOptionsUpdate(sortOptions: SortOptions): SortOptionsUpdateAction {
+  return {
+    type: ActionTypes.SORT_OPTIONS_UPDATE,
+    payload: {
+      sortOptions,
+    },
+  };
+}
+
+function sortOrderUpdate(
+  sortOrder: 'desc' | 'asc' = 'desc',
+): SortOrderUpdateAction {
+  return {
+    type: ActionTypes.SORT_ORDER_UPDATE,
+    payload: {
+      sortOrder,
+    },
+  };
+}
+
+function searchByUpdate(searchBy = ''): SearchUpdateAction {
   return {
     type: ActionTypes.SEARCH_BY_UPDATE,
     payload: {
@@ -96,7 +119,9 @@ function fetchMovies(page: number = 1) {
       searchBy = searchInfo.searchBy,
       sortOrder = searchInfo.sortOrder,
       limit = searchInfo.limit;
-    const pageParams = `&offset=${(page - 1) * limit}&limit=${limit}`;
+    const pageParams = `&offset=${
+      (page - 1) * limit + (page - 1)
+    }&limit=${limit}`;
     const fetchUrl = query
       ? `https://reactjs-cdp.herokuapp.com/movies?search=${query}&sortOrder=${sortOrder}&searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`
       : `https://reactjs-cdp.herokuapp.com/movies?searchBy=${searchBy}&sortOrder=${sortOrder}&sortBy=${sortBy}${pageParams}`;
@@ -132,4 +157,12 @@ function fetchMovie(id: number) {
   };
 }
 
-export { fetchMovies, fetchMovie, queryUpdate, sortByUpdate, searchByUpdate };
+export {
+  fetchMovies,
+  fetchMovie,
+  queryUpdate,
+  sortByUpdate,
+  searchByUpdate,
+  sortOptionsUpdate,
+  sortOrderUpdate,
+};

@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 function MoviesList({ movies }: { movies: Array<MovieEntity> }) {
   const movieComponents = movies.map((movie) => {
-    return <Movie movie={movie} key={movie.id + movie.title} />;
+    return <Movie movie={movie} key={movie.id} />;
   });
   const { root } = useStyles();
 

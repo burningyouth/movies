@@ -20,7 +20,6 @@ const useStyles = makeStyles({
     justifyContent: 'flex-start',
   },
   mainContent: {
-    height: 120,
     width: 'calc(100% - 32px)',
   },
   link: {
@@ -42,31 +41,26 @@ const useStyles = makeStyles({
   chip: {
     marginRight: 10,
   },
+  overview: {
+    height: 75,
+    overflow: 'hidden',
+  },
+  title: {
+    height: 35,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
 });
 
 function Movie({ movie }: { movie: MovieEntity }) {
-  const {
-    actionArea,
-    mainContent,
-    link,
-    chip,
-    genres,
-    genresWrapper,
-  } = useStyles();
-  const overview = movie.overview && (
-    <Typography
-      gutterBottom
-      variant="body2"
-      color="textSecondary"
-      component="p"
-    >
-      {movie.overview.length > 100
-        ? movie.overview.substr(0, 100).trim() + '...'
-        : movie.overview}
-    </Typography>
-  );
+  const classes = useStyles();
+  if (movie.overview.length > 150)
+    movie.overview = movie.overview.substr(0, 150).trim() + '...';
   const genresComponents = movie.genres.slice(0, 3).map((genre) => {
-    return <Chip size="small" label={genre} className={chip} key={genre} />;
+    return (
+      <Chip size="small" label={genre} className={classes.chip} key={genre} />
+    );
   });
   const { media } = makeStyles({
     media: {
@@ -80,25 +74,43 @@ function Movie({ movie }: { movie: MovieEntity }) {
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card>
-        <Link to={`/detail/${movie.id}`} className={link}>
-          <CardActionArea className={actionArea}>
+        <Link to={`/detail/${movie.id}`} className={classes.link}>
+          <CardActionArea className={classes.actionArea}>
             <CardMedia
               className={media}
               title="Movie poster"
               src="/notfound.jpg"
             />
-            <CardContent className={mainContent}>
-              <Typography gutterBottom variant="h5" component="h2">
+            <CardContent className={classes.mainContent}>
+              <Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+                className={classes.title}
+              >
                 {movie.title}
               </Typography>
-              {overview}
+              <Typography
+                gutterBottom
+                variant="body2"
+                color="textSecondary"
+                component="p"
+                className={classes.overview}
+              >
+                {movie.overview}
+              </Typography>
             </CardContent>
-            <div className={genresWrapper}>
+            <div className={classes.genresWrapper}>
               <Divider light />
-              <div className={genres}>
+              <div className={classes.genres}>
                 {genresComponents}
                 {movie.genres.length > 3 && (
-                  <Chip size="small" label="···" className={chip} key="···" />
+                  <Chip
+                    size="small"
+                    label="···"
+                    className={classes.chip}
+                    key="···"
+                  />
                 )}
               </div>
             </div>
