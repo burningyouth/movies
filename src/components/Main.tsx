@@ -52,7 +52,7 @@ function Main({ moviesState }: { moviesState: MoviesState }) {
         </Grid>
       </div>
       <ResultBar total={moviesState.total} />
-      <MoviesList movies={moviesState.movies} />
+      <MoviesList movies={moviesState.data} />
     </Container>
   );
 }

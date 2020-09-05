@@ -95,7 +95,7 @@ function fetchMoviesFailure(error: string): MovieActionFailure {
   return {
     type: ActionTypes.FETCH_MOVIES_FAILURE,
     payload: {
-      error: new Error(error),
+      error,
     },
   };
 }
@@ -104,7 +104,7 @@ function fetchMovieFailure(error: string): MovieActionFailure {
   return {
     type: ActionTypes.FETCH_MOVIE_FAILURE,
     payload: {
-      error: new Error(error),
+      error,
     },
   };
 }
@@ -138,9 +138,15 @@ function fetchMovies(page: number = 1) {
 }
 
 function fetchMovie(id: number) {
-  return function (dispatch: any) {
+  return function (dispatch: any, getState: Function) {
     dispatch(fetchMovieStart());
 
+    if (!id) return dispatch(fetchMovieFailure('ID not specified!'));
+    const movie = getState().movies.data.find((item: MovieEntity) => {
+      if (+id === item.id) return true;
+      return false;
+    });
+    if (movie) return dispatch(fetchMovieSuccess(movie));
     const fetchUrl = `https://reactjs-cdp.herokuapp.com/movies/${id}`;
     return fetch(fetchUrl)
       .then(

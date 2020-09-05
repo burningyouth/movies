@@ -10,8 +10,7 @@ function LoadMoreButtonContainer() {
   const dispatch = useDispatch();
   const moviesState = useSelector((state: RootState) => state.movies);
   if (moviesState.isFetching) return <CenteredProgress />;
-  if (moviesState.total === moviesState.movies.length)
-    return <React.Fragment />;
+  if (moviesState.total === moviesState.data.length) return <React.Fragment />;
   return (
     <LoadMoreButton
       handleClick={() => dispatch(fetchMovies(moviesState.page + 1))}

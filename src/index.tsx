@@ -13,6 +13,7 @@ import MainContainer from './containers/MainContainer';
 import DetailContainer from './containers/DetailContainer';
 import FetchMovies from './containers/FetchMovies';
 import Header from './components/Header';
+import Error from './components/Error';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -33,13 +34,26 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <FetchMovies />
     <Router>
-      <Route component={Header} />
+      <Route>
+        <Header />
+      </Route>
+      <Route>
+        <FetchMovies />
+      </Route>
       <Switch>
-        <Route exact path="/" component={MainContainer} />
-        <Route path="/search/:query?" component={MainContainer} />
-        <Route path="/detail/:id?" component={DetailContainer} />
+        <Route exact path="/">
+          <MainContainer />
+        </Route>
+        <Route path="/search/:query?">
+          <MainContainer />
+        </Route>
+        <Route path="/detail/:id?">
+          <DetailContainer />
+        </Route>
+        <Route path="*">
+          <Error message="Page not found!" />
+        </Route>
       </Switch>
     </Router>
   </Provider>,

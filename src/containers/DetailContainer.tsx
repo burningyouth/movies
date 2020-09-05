@@ -17,12 +17,10 @@ function DetailContainer() {
     dispatch(fetchMovie(id));
   }, [dispatch, id]);
 
-  if (!id) return <Error message="Type id of the movie!" />;
   if (movieDetail.isFetching) return <Backdrop open={true} />;
   if (movieDetail.error) return <Error message={movieDetail.error} />;
-  if (!movieDetail.movie.id) return <Error message="ID is invalid!" />;
 
-  return <Detail movie={movieDetail.movie} />;
+  return <Detail movie={movieDetail.data} />;
 }
 
 export default DetailContainer;

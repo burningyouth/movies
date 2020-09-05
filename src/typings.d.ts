@@ -107,7 +107,7 @@ type SearchAction =
 type MoviesState = {
   isFetching: boolean;
   total: number;
-  movies: MovieEntity[];
+  data: MovieEntity[];
   error: string | boolean;
   page: number;
   totalPages: number;
@@ -115,7 +115,7 @@ type MoviesState = {
 
 type MovieState = {
   isFetching: boolean;
-  movie: MovieEntity;
+  data: MovieEntity;
   error: string | boolean;
 };
 

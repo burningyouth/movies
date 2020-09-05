@@ -14,14 +14,14 @@ const initialMoviesState = {
   total: 0,
   page: 0,
   totalPages: 0,
-  movies: [],
+  data: [],
   error: false,
 } as MoviesState;
 
 const initialMovieState = {
   isFetching: false,
   error: false,
-  movie: {},
+  data: {},
 } as MovieState;
 
 const initialSearchState = {
@@ -41,6 +41,7 @@ const initialSearchState = {
   searchBy: 'title',
 } as SearchState;
 
+//с просторов интернета
 function formatMoney(
   amount: number | string,
   decimalCount = 0,
@@ -80,7 +81,7 @@ const movies = (
     case ActionTypes.FETCH_MOVIES_SUCCESS:
       let newItems = action.payload.result.data;
       if (action.payload.result.offset > 1) {
-        newItems = state.movies.concat(action.payload.result.data);
+        newItems = state.data.concat(action.payload.result.data);
       }
       return {
         ...state,
@@ -88,7 +89,7 @@ const movies = (
         total: action.payload.result.total,
         page: Math.ceil(newItems.length / 9),
         totalPages: Math.ceil(action.payload.result.total / 9),
-        movies: newItems,
+        data: newItems,
       };
     case ActionTypes.FETCH_MOVIES_FAILURE:
       return { ...state, isFetching: false, error: action.payload.error };
@@ -103,9 +104,15 @@ const movieDetail = (
 ): MovieState => {
   switch (action.type) {
     case ActionTypes.FETCH_MOVIE_START:
-      return { ...state, isFetching: true };
+      return { ...state, isFetching: true, error: false };
     case ActionTypes.FETCH_MOVIE_SUCCESS:
       const movie = action.payload.result;
+      if (!movie.id)
+        return {
+          ...state,
+          isFetching: false,
+          error: 'Movie with specified ID not found!',
+        };
       const dateOptions = {
         year: 'numeric',
         month: 'long',
@@ -119,7 +126,7 @@ const movieDetail = (
       return {
         ...state,
         isFetching: false,
-        movie: { ...movie },
+        data: { ...movie },
       };
     case ActionTypes.FETCH_MOVIE_FAILURE:
       return { ...state, isFetching: false, error: action.payload.error };
