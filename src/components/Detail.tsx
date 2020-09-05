@@ -100,6 +100,17 @@ function Detail({ movie }: { movie: MovieEntity }) {
             component="h4"
             color="textSecondary"
           >
+            Revenue:{' '}
+            {movie.revenue
+              ? `$${movie.revenueString}`
+              : 'Not enough information'}
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="body2"
+            component="h4"
+            color="textSecondary"
+          >
             Rating:{' '}
             {movie.vote_average
               ? `${movie.vote_average} / 10 (${movie.vote_count} votes)`

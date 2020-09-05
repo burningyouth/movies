@@ -123,6 +123,7 @@ const movieDetail = (
         dateOptions,
       );
       movie.budgetString = formatMoney(movie.budget);
+      movie.revenueString = formatMoney(movie.revenue);
       return {
         ...state,
         isFetching: false,

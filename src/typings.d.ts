@@ -12,6 +12,7 @@ type MovieEntity = {
   runtime: number;
   genres: string[];
   budgetString?: string;
+  revenueString?: string;
 };
 
 type Movies = {
