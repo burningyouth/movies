@@ -119,9 +119,7 @@ function fetchMovies(page: number = 1) {
       searchBy = searchInfo.searchBy,
       sortOrder = searchInfo.sortOrder,
       limit = searchInfo.limit;
-    const pageParams = `&offset=${
-      (page - 1) * limit + (page - 1)
-    }&limit=${limit}`;
+    const pageParams = `&offset=${(page - 1) * limit}&limit=${limit}`;
     const fetchUrl = query
       ? `https://reactjs-cdp.herokuapp.com/movies?search=${query}&sortOrder=${sortOrder}&searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`
       : `https://reactjs-cdp.herokuapp.com/movies?searchBy=${searchBy}&sortOrder=${sortOrder}&sortBy=${sortBy}${pageParams}`;

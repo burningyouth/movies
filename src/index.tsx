@@ -2,7 +2,7 @@
 import React from 'react';
 
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import { createStore, applyMiddleware, Action, compose } from 'redux';
 import thunkMiddleware, { ThunkAction } from 'redux-thunk';
 import * as serviceWorker from './serviceWorker';

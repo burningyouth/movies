@@ -67,7 +67,7 @@ function Movie({ movie }: { movie: MovieEntity }) {
       height: 450,
       width: '100%',
       backgroundSize: 'cover',
-      backgroundImage: `url(${movie.poster_path}), url(/notfound.jpg)`,
+      backgroundImage: `url(${movie.poster_path}), url(notfound.jpg)`,
     },
   })();
 
@@ -79,7 +79,7 @@ function Movie({ movie }: { movie: MovieEntity }) {
             <CardMedia
               className={media}
               title="Movie poster"
-              src="/notfound.jpg"
+              src="notfound.jpg"
             />
             <CardContent className={classes.mainContent}>
               <Typography

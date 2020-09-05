@@ -54,7 +54,7 @@ function Detail({ movie }: { movie: MovieEntity }) {
         height: 600,
         backgroundOrigin: 'center',
         backgroundSize: 'cover',
-        backgroundImage: `url(${movie.poster_path}), url(/notfound.jpg)`,
+        backgroundImage: `url(${movie.poster_path}), url(notfound.jpg)`,
         [theme.breakpoints.down('xs')]: {
           height: 400,
         },
@@ -69,7 +69,7 @@ function Detail({ movie }: { movie: MovieEntity }) {
           <CardMedia
             className={media}
             title="Movie poster"
-            src="/notfound.jpg"
+            src="notfound.jpg"
           />
         </Grid>
         <Grid item xs>
