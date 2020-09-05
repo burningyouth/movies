@@ -55,8 +55,9 @@ const useStyles = makeStyles({
 
 function Movie({ movie }: { movie: MovieEntity }) {
   const classes = useStyles();
-  if (movie.overview.length > 150)
-    movie.overview = movie.overview.substr(0, 150).trim() + '...';
+  let overview = movie.overview;
+  if (overview.length > 150)
+    overview = movie.overview.substr(0, 150).trim() + '...';
   const genresComponents = movie.genres.slice(0, 3).map((genre) => {
     return (
       <Chip size="small" label={genre} className={classes.chip} key={genre} />
@@ -97,7 +98,7 @@ function Movie({ movie }: { movie: MovieEntity }) {
                 component="p"
                 className={classes.overview}
               >
-                {movie.overview}
+                {overview}
               </Typography>
             </CardContent>
             <div className={classes.genresWrapper}>
