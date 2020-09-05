@@ -36,6 +36,7 @@ const initialSearchState = {
     release_date: 'Release date',
     overview: 'Overview',
     budget: 'Budget',
+    revenue: 'Revenue',
   },
   sortOrder: 'desc',
   searchBy: 'title',

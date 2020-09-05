@@ -30,6 +30,7 @@ type SortOptions = {
   release_date: string;
   overview: string;
   budget: string;
+  revenue: string;
 };
 
 // Actions

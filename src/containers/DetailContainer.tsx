@@ -17,7 +17,8 @@ function DetailContainer() {
     dispatch(fetchMovie(id));
   }, [dispatch, id]);
 
-  if (movieDetail.isFetching) return <Backdrop open={true} />;
+  if (movieDetail.isFetching || !movieDetail.data.id)
+    return <Backdrop open={true} />;
   if (movieDetail.error) return <Error message={movieDetail.error} />;
 
   return <Detail movie={movieDetail.data} />;
