@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { fetchMovies, sortOptionsUpdate } from '../actions/actions';
+import { fetchMovies } from '../actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '..';
 

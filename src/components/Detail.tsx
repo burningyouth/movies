@@ -6,21 +6,26 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 
-import { CardMedia } from '@material-ui/core';
+import { CardMedia, Theme, createStyles } from '@material-ui/core';
 import { MovieEntity } from '../typings';
 
-const useStyles = makeStyles({
-  root: {
-    marginTop: 40,
-  },
-  genresWrapper: {
-    marginTop: 20,
-  },
-  chip: {
-    marginRight: 10,
-    marginBottom: 10,
-  },
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      marginTop: 40,
+      [theme.breakpoints.down('xs')]: {
+        marginTop: 20,
+      },
+    },
+    genresWrapper: {
+      marginTop: 20,
+    },
+    chip: {
+      marginRight: 10,
+      marginBottom: 10,
+    },
+  }),
+);
 
 function Detail({ movie }: { movie: MovieEntity }) {
   const { root, genresWrapper, chip } = useStyles();
@@ -43,19 +48,24 @@ function Detail({ movie }: { movie: MovieEntity }) {
       return <Chip label={genre} className={chip} key={genre} />;
     });
 
-  const { media } = makeStyles({
-    media: {
-      height: 600,
-      backgroundOrigin: 'center',
-      backgroundSize: 'cover',
-      backgroundImage: `url(${movie.poster_path}), url(/notfound.jpg)`,
-    },
-  })();
+  const { media } = makeStyles((theme: Theme) =>
+    createStyles({
+      media: {
+        height: 600,
+        backgroundOrigin: 'center',
+        backgroundSize: 'cover',
+        backgroundImage: `url(${movie.poster_path}), url(/notfound.jpg)`,
+        [theme.breakpoints.down('xs')]: {
+          height: 400,
+        },
+      },
+    }),
+  )();
 
   return (
     <Container maxWidth="lg">
       <Grid container spacing={3} className={root}>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={7} md={5} lg={4}>
           <CardMedia
             className={media}
             title="Movie poster"
