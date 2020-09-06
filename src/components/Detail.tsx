@@ -8,6 +8,7 @@ import Chip from '@material-ui/core/Chip';
 
 import { CardMedia, Theme, createStyles } from '@material-ui/core';
 import { MovieEntity } from '../typings';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -23,6 +24,10 @@ const useStyles = makeStyles((theme: Theme) =>
     chip: {
       marginRight: 10,
       marginBottom: 10,
+      cursor: 'pointer',
+      '&:hover': {
+        backgroundColor: 'rgb(210,210,210)',
+      },
     },
     tagline: {
       fontSize: '1.2rem',
@@ -30,10 +35,19 @@ const useStyles = makeStyles((theme: Theme) =>
     gutterBottom: {
       marginBottom: '0.5rem',
     },
+    link: {
+      textDecoration: 'none',
+    },
   }),
 );
 
-function Detail({ movie }: { movie: MovieEntity }) {
+function Detail({
+  movie,
+  setQuery,
+}: {
+  movie: MovieEntity;
+  setQuery: Function;
+}) {
   const classes = useStyles();
 
   const { media } = makeStyles((theme: Theme) =>
@@ -76,7 +90,16 @@ function Detail({ movie }: { movie: MovieEntity }) {
 
   if (Array.isArray(movie.genres))
     genresComponents = movie.genres.map((genre) => {
-      return <Chip label={genre} className={classes.chip} key={genre} />;
+      return (
+        <Link
+          to={`/search/${genre}`}
+          onClick={() => setQuery(genre)}
+          key={genre}
+          className={classes.link}
+        >
+          <Chip label={genre} className={classes.chip} />
+        </Link>
+      );
     });
 
   return (

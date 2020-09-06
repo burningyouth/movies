@@ -7,7 +7,7 @@ import { RootState } from '..';
 import Error from '../components/Error';
 import Backdrop from '../components/CenteredBackdrop';
 import Detail from '../components/Detail';
-import { fetchMovie } from '../actions/actions';
+import { fetchMovie, queryUpdate, searchByUpdate } from '../actions/actions';
 
 function DetailContainer() {
   const { id } = useParams();
@@ -23,7 +23,15 @@ function DetailContainer() {
 
   document.title = movieDetail.data.title;
 
-  return <Detail movie={movieDetail.data} />;
+  return (
+    <Detail
+      movie={movieDetail.data}
+      setQuery={(query: string) => {
+        dispatch(queryUpdate(query));
+        dispatch(searchByUpdate('genres'));
+      }}
+    />
+  );
 }
 
 export default DetailContainer;
