@@ -137,16 +137,19 @@ function fetchMovies(page: number = 1) {
   };
 }
 
-function fetchMovie(id: number) {
+function fetchMovie(id: string) {
   return function (dispatch: any, getState: Function) {
+    if (!id) return dispatch(fetchMovieFailure('ID not specified!'));
+    if (getState().movieDetail.data.id === +id) return false;
+
     dispatch(fetchMovieStart());
 
-    if (!id) return dispatch(fetchMovieFailure('ID not specified!'));
     const movie = getState().movies.data.find((item: MovieEntity) => {
       if (+id === item.id) return true;
       return false;
     });
     if (movie) return dispatch(fetchMovieSuccess(movie));
+
     const fetchUrl = `https://reactjs-cdp.herokuapp.com/movies/${id}`;
     return fetch(fetchUrl)
       .then(

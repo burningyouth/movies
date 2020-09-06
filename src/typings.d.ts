@@ -28,7 +28,6 @@ type SortOptions = {
   vote_count: string;
   vote_average: string;
   release_date: string;
-  overview: string;
   budget: string;
   revenue: string;
 };

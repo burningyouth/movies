@@ -34,7 +34,6 @@ const initialSearchState = {
     vote_count: 'Total votes',
     vote_average: 'Rating',
     release_date: 'Release date',
-    overview: 'Overview',
     budget: 'Budget',
     revenue: 'Revenue',
   },

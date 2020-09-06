@@ -24,29 +24,17 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 10,
       marginBottom: 10,
     },
+    tagline: {
+      fontSize: '1.2rem',
+    },
+    gutterBottom: {
+      marginBottom: '0.5rem',
+    },
   }),
 );
 
 function Detail({ movie }: { movie: MovieEntity }) {
-  const { root, genresWrapper, chip } = useStyles();
-
-  const overview = movie.overview && (
-    <Typography
-      gutterBottom
-      variant="body2"
-      color="textSecondary"
-      component="p"
-    >
-      {movie.overview}
-    </Typography>
-  );
-
-  let genresComponents;
-
-  if (Array.isArray(movie.genres))
-    genresComponents = movie.genres.map((genre) => {
-      return <Chip label={genre} className={chip} key={genre} />;
-    });
+  const classes = useStyles();
 
   const { media } = makeStyles((theme: Theme) =>
     createStyles({
@@ -62,9 +50,38 @@ function Detail({ movie }: { movie: MovieEntity }) {
     }),
   )();
 
+  const overview = movie.overview && (
+    <Typography
+      variant="body2"
+      color="textSecondary"
+      component="p"
+      className={classes.gutterBottom}
+    >
+      {movie.overview}
+    </Typography>
+  );
+
+  const tagline = movie.tagline && (
+    <Typography
+      className={classes.tagline}
+      variant="h6"
+      color="textSecondary"
+      component="h2"
+    >
+      {movie.tagline}
+    </Typography>
+  );
+
+  let genresComponents;
+
+  if (Array.isArray(movie.genres))
+    genresComponents = movie.genres.map((genre) => {
+      return <Chip label={genre} className={classes.chip} key={genre} />;
+    });
+
   return (
     <Container maxWidth="lg">
-      <Grid container spacing={3} className={root}>
+      <Grid container spacing={3} className={classes.root}>
         <Grid item xs={12} sm={7} md={5} lg={4}>
           <CardMedia
             className={media}
@@ -73,9 +90,12 @@ function Detail({ movie }: { movie: MovieEntity }) {
           />
         </Grid>
         <Grid item xs>
-          <Typography gutterBottom variant="h4" component="h2">
-            {movie.title}
-          </Typography>
+          <div className={classes.gutterBottom}>
+            <Typography variant="h4" component="h1">
+              {movie.title}
+            </Typography>
+            {tagline}
+          </div>
           {overview}
           <Typography
             gutterBottom
@@ -116,7 +136,7 @@ function Detail({ movie }: { movie: MovieEntity }) {
               ? `${movie.vote_average} / 10 (${movie.vote_count} votes)`
               : 'Not enough votes'}
           </Typography>
-          <div className={genresWrapper}>{genresComponents}</div>
+          <div className={classes.genresWrapper}>{genresComponents}</div>
         </Grid>
       </Grid>
     </Container>

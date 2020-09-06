@@ -6,6 +6,7 @@ import Error from '../components/Error';
 
 function MainContainer() {
   const moviesState = useSelector((state: RootState) => state.movies);
+  document.title = 'Movies';
 
   if (moviesState.error) return <Error message={moviesState.error} />;
 

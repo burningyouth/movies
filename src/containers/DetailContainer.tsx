@@ -21,6 +21,8 @@ function DetailContainer() {
     return <Backdrop open={true} />;
   if (movieDetail.error) return <Error message={movieDetail.error} />;
 
+  document.title = movieDetail.data.title;
+
   return <Detail movie={movieDetail.data} />;
 }
 
