@@ -92,7 +92,7 @@ function Detail({
     genresComponents = movie.genres.map((genre) => {
       return (
         <Link
-          to={`/search/${genre}`}
+          to="/"
           onClick={() => setQuery(genre)}
           key={genre}
           className={classes.link}

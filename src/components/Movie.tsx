@@ -73,7 +73,7 @@ function Movie({ movie }: { movie: MovieEntity }) {
   })();
 
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid item xs={12} sm={6} md={4} id={`item_${movie.id}`}>
       <Card>
         <Link to={`/detail/${movie.id}`} className={classes.link}>
           <CardActionArea className={classes.actionArea}>
