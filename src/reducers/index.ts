@@ -26,7 +26,6 @@ const initialMovieState = {
 
 const initialSearchState = {
   query: '',
-  limit: 9,
   sortBy: 'release_date',
   sortOptions: {
     id: 'ID',
@@ -106,21 +105,20 @@ const movieDetail = (
     case ActionTypes.FETCH_MOVIE_START:
       return { ...state, isFetching: true, error: false };
     case ActionTypes.FETCH_MOVIE_SUCCESS:
-      const movie = action.payload.result;
+      const movie = { ...action.payload.result };
       if (!movie.id)
         return {
           ...state,
           isFetching: false,
           error: 'Movie with specified ID not found!',
         };
-      const dateOptions = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      };
       movie.release_date = new Date(movie.release_date).toLocaleDateString(
         'en-US',
-        dateOptions,
+        {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        },
       );
       movie.budgetString = formatMoney(movie.budget);
       movie.revenueString = formatMoney(movie.revenue);
@@ -171,10 +169,8 @@ const searchInfo = (
   }
 };
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   movies,
   searchInfo,
   movieDetail,
 });
-
-export default rootReducer;

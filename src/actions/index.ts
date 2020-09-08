@@ -12,114 +12,116 @@ import {
   SortOptionsUpdateAction,
   SortOrderUpdateAction,
   SortOptions,
+  AppThunk,
+  SortOrder,
+  SearchBy,
 } from '../typings';
 
-function queryUpdate(query = ''): QueryUpdateAction {
+export const queryUpdate = (query = ''): QueryUpdateAction => {
   return {
     type: ActionTypes.QUERY_UPDATE,
     payload: {
       query,
     },
   };
-}
+};
 
-function sortByUpdate(sortBy: keyof SortOptions): SortUpdateAction {
+export const sortByUpdate = (sortBy: keyof SortOptions): SortUpdateAction => {
   return {
     type: ActionTypes.SORT_BY_UPDATE,
     payload: {
       sortBy,
     },
   };
-}
+};
 
-function sortOptionsUpdate(sortOptions: SortOptions): SortOptionsUpdateAction {
+export const sortOptionsUpdate = (
+  sortOptions: SortOptions,
+): SortOptionsUpdateAction => {
   return {
     type: ActionTypes.SORT_OPTIONS_UPDATE,
     payload: {
       sortOptions,
     },
   };
-}
+};
 
-function sortOrderUpdate(
-  sortOrder: 'desc' | 'asc' = 'desc',
-): SortOrderUpdateAction {
+export const sortOrderUpdate = (
+  sortOrder: keyof SortOrder = 'desc',
+): SortOrderUpdateAction => {
   return {
     type: ActionTypes.SORT_ORDER_UPDATE,
     payload: {
       sortOrder,
     },
   };
-}
+};
 
-function searchByUpdate(searchBy = ''): SearchUpdateAction {
+export const searchByUpdate = (
+  searchBy: SearchBy = 'title',
+): SearchUpdateAction => {
   return {
     type: ActionTypes.SEARCH_BY_UPDATE,
     payload: {
       searchBy,
     },
   };
-}
+};
 
-function fetchMoviesStart(): MovieActionStart {
+export const fetchMoviesStart = (): MovieActionStart => {
   return {
     type: ActionTypes.FETCH_MOVIES_START,
   };
-}
+};
 
-function fetchMovieStart(): MovieActionStart {
+export const fetchMovieStart = (): MovieActionStart => {
   return {
     type: ActionTypes.FETCH_MOVIE_START,
   };
-}
+};
 
-function fetchMoviesSuccess(result: Movies): MoviesActionSuccess {
+export const fetchMoviesSuccess = (result: Movies): MoviesActionSuccess => {
   return {
     type: ActionTypes.FETCH_MOVIES_SUCCESS,
     payload: {
       result,
     },
   };
-}
+};
 
-function fetchMovieSuccess(result: MovieEntity): MovieActionSuccess {
+export const fetchMovieSuccess = (result: MovieEntity): MovieActionSuccess => {
   return {
     type: ActionTypes.FETCH_MOVIE_SUCCESS,
     payload: {
       result,
     },
   };
-}
+};
 
-function fetchMoviesFailure(error: string): MovieActionFailure {
+export const fetchMoviesFailure = (error: string): MovieActionFailure => {
   return {
     type: ActionTypes.FETCH_MOVIES_FAILURE,
     payload: {
       error,
     },
   };
-}
+};
 
-function fetchMovieFailure(error: string): MovieActionFailure {
+export const fetchMovieFailure = (error: string): MovieActionFailure => {
   return {
     type: ActionTypes.FETCH_MOVIE_FAILURE,
     payload: {
       error,
     },
   };
-}
+};
 
-function fetchMovies(page: number = 1) {
-  return function (dispatch: any, getState: any) {
+export const fetchMovies = (page: number = 1): AppThunk => {
+  return function (dispatch, getState) {
     dispatch(fetchMoviesStart());
 
-    const searchInfo = getState().searchInfo;
-    const query = searchInfo.query,
-      sortBy = searchInfo.sortBy,
-      searchBy = searchInfo.searchBy,
-      sortOrder = searchInfo.sortOrder,
-      limit = searchInfo.limit;
-    const pageParams = `&offset=${(page - 1) * limit}&limit=${limit}`;
+    const { query, sortBy, searchBy, sortOrder } = getState().searchInfo;
+    const pageParams = `&offset=${(page - 1) * 9}&limit=${9}`;
     const fetchUrl = query
       ? `https://reactjs-cdp.herokuapp.com/movies?search=${query}&sortOrder=${sortOrder}&searchBy=${searchBy}&sortBy=${sortBy}${pageParams}`
       : `https://reactjs-cdp.herokuapp.com/movies?searchBy=${searchBy}&sortOrder=${sortOrder}&sortBy=${sortBy}${pageParams}`;
@@ -135,17 +137,17 @@ function fetchMovies(page: number = 1) {
         dispatch(fetchMoviesSuccess(response));
       });
   };
-}
+};
 
-function fetchMovie(id: string) {
-  return function (dispatch: any, getState: Function) {
+export const fetchMovie = (id: number): AppThunk => {
+  return function (dispatch, getState) {
     if (!id) return dispatch(fetchMovieFailure('ID not specified!'));
-    if (getState().movieDetail.data.id === +id) return false;
+    if (getState().movieDetail.data.id === id) return false;
 
     dispatch(fetchMovieStart());
 
     const movie = getState().movies.data.find((item: MovieEntity) => {
-      if (+id === item.id) return true;
+      if (id === item.id) return true;
       return false;
     });
     if (movie) return dispatch(fetchMovieSuccess(movie));
@@ -162,14 +164,4 @@ function fetchMovie(id: string) {
         dispatch(fetchMovieSuccess(response));
       });
   };
-}
-
-export {
-  fetchMovies,
-  fetchMovie,
-  queryUpdate,
-  sortByUpdate,
-  searchByUpdate,
-  sortOptionsUpdate,
-  sortOrderUpdate,
 };

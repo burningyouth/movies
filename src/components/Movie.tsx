@@ -53,16 +53,11 @@ const useStyles = makeStyles({
   },
 });
 
-function Movie({ movie }: { movie: MovieEntity }) {
+export const Movie = ({ movie }: { movie: MovieEntity }) => {
   const classes = useStyles();
   let overview = movie.overview;
   if (overview.length > 150)
     overview = movie.overview.substr(0, 150).trim() + '...';
-  const genresComponents = movie.genres.slice(0, 3).map((genre) => {
-    return (
-      <Chip size="small" label={genre} className={classes.chip} key={genre} />
-    );
-  });
   const { media } = makeStyles({
     media: {
       height: 450,
@@ -104,7 +99,14 @@ function Movie({ movie }: { movie: MovieEntity }) {
             <div className={classes.genresWrapper}>
               <Divider light />
               <div className={classes.genres}>
-                {genresComponents}
+                {movie.genres.slice(0, 3).map((genre) => (
+                  <Chip
+                    size="small"
+                    label={genre}
+                    className={classes.chip}
+                    key={genre}
+                  />
+                ))}
                 {movie.genres.length > 3 && (
                   <Chip
                     size="small"
@@ -120,6 +122,4 @@ function Movie({ movie }: { movie: MovieEntity }) {
       </Card>
     </Grid>
   );
-}
-
-export default Movie;
+};

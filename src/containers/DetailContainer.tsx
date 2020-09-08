@@ -2,36 +2,38 @@ import React, { useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '..';
 
-import Error from '../components/Error';
-import Backdrop from '../components/CenteredBackdrop';
-import Detail from '../components/Detail';
-import { fetchMovie, queryUpdate, searchByUpdate } from '../actions/actions';
+import { Error } from '../components/Error';
+import { CenteredBackdrop } from '../components/CenteredBackdrop';
+import { Detail } from '../components/Detail';
+import { fetchMovie, queryUpdate, searchByUpdate } from '../actions';
+import { RootState } from '../typings';
 
-function DetailContainer() {
+export const DetailContainer = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const movieDetail = useSelector((state: RootState) => state.movieDetail);
+
   useEffect(() => {
-    dispatch(fetchMovie(id));
+    dispatch(fetchMovie(+id));
   }, [dispatch, id]);
 
-  if (movieDetail.isFetching || !movieDetail.data.id)
-    return <Backdrop open={true} />;
-  if (movieDetail.error) return <Error message={movieDetail.error} />;
+  useEffect(() => {
+    if (movieDetail.data.title && !movieDetail.isFetching)
+      document.title = movieDetail.data.title;
+  }, [movieDetail.data.title, movieDetail.isFetching]);
 
-  document.title = movieDetail.data.title;
+  if (movieDetail.isFetching || !movieDetail.data.id)
+    return <CenteredBackdrop open={true} />;
+  if (movieDetail.error) return <Error message={movieDetail.error} />;
 
   return (
     <Detail
       movie={movieDetail.data}
-      setQuery={(query: string) => {
-        dispatch(queryUpdate(query));
+      handleQuery={(query: string) => {
         dispatch(searchByUpdate('genres'));
+        return dispatch(queryUpdate(query));
       }}
     />
   );
-}
-
-export default DetailContainer;
+};

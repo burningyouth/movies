@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import LoadMoreButton from '../components/LoadMoreButton';
-import { RootState } from '..';
-import { fetchMovies } from '../actions/actions';
-import CenteredProgress from '../components/CenteredProgress';
+import { LoadMoreButton } from '../components/LoadMoreButton';
+import { RootState } from '../typings';
+import { fetchMovies } from '../actions';
+import { CenteredProgress } from '../components/CenteredProgress';
 
-function LoadMoreButtonContainer() {
+export const LoadMoreButtonContainer = () => {
   const dispatch = useDispatch();
   const moviesState = useSelector((state: RootState) => state.movies);
   if (moviesState.isFetching) return <CenteredProgress />;
@@ -16,6 +16,4 @@ function LoadMoreButtonContainer() {
       handleClick={() => dispatch(fetchMovies(moviesState.page + 1))}
     />
   );
-}
-
-export default LoadMoreButtonContainer;
+};

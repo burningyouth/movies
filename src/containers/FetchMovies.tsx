@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import { fetchMovies } from '../actions/actions';
+import { fetchMovies } from '../actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '..';
+import { RootState } from '../typings';
 
-function FetchMovies() {
+export const FetchMovies = () => {
   const dispatch = useDispatch();
   const searchInfo = useSelector((state: RootState) => state.searchInfo);
+
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch, searchInfo]);
-  return <React.Fragment />;
-}
 
-export default FetchMovies;
+  return <React.Fragment />;
+};

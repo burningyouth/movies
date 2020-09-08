@@ -1,19 +1,17 @@
 import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { queryUpdate } from '../actions/actions';
-import SearchBar from '../components/SearchBar';
-import { RootState } from '..';
+import { queryUpdate } from '../actions';
+import { SearchBar } from '../components/SearchBar';
+import { RootState } from '../typings';
 
-function SearchBarContainer() {
+export const SearchBarContainer = () => {
   const dispatch = useDispatch();
-  const searchInfo = useSelector((state: RootState) => state.searchInfo);
+  const query = useSelector((state: RootState) => state.searchInfo.query);
   return (
     <SearchBar
-      query={searchInfo.query}
-      setQuery={(query: string) => dispatch(queryUpdate(query))}
+      query={query}
+      handleQuery={(query: string) => dispatch(queryUpdate(query))}
     />
   );
-}
-
-export default SearchBarContainer;
+};

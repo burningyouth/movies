@@ -3,6 +3,7 @@ import React from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { ErrorProps } from '../typings';
 
 const useStyles = makeStyles({
   root: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Error(props: any) {
+export const Error = (props: ErrorProps) => {
   const { root } = useStyles();
   return (
     <Container maxWidth="lg" className={root}>
@@ -24,6 +25,4 @@ function Error(props: any) {
       </Typography>
     </Container>
   );
-}
-
-export default Error;
+};

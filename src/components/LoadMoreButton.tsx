@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
+import { LoadMoreButtonProps } from '../typings';
 
 const useStyles = makeStyles({
   root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
   },
 });
 
-function LoadMoreButton({ handleClick }: { handleClick: Function }) {
+export const LoadMoreButton = ({ handleClick }: LoadMoreButtonProps) => {
   const { root } = useStyles();
 
   return (
@@ -25,6 +26,4 @@ function LoadMoreButton({ handleClick }: { handleClick: Function }) {
       </Button>
     </div>
   );
-}
-
-export default LoadMoreButton;
+};

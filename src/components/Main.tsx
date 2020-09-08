@@ -1,13 +1,14 @@
 import React from 'react';
-import SearchBarContainer from '../containers/SearchBarContainer';
-import ResultBar from './ResultBar';
 
 import Container from '@material-ui/core/Container';
-import MoviesList from './MoviesList';
-import { MoviesState } from '../typings';
-import SearchByContainer from '../containers/SearchByContainer';
-import SortByContainer from '../containers/SortByContainer';
 import { Grid, createStyles, Theme, makeStyles } from '@material-ui/core';
+
+import { SearchBarContainer } from '../containers/SearchBarContainer';
+import { ResultBar } from './ResultBar';
+import { MoviesList } from './MoviesList';
+import { MainProps } from '../typings';
+import { SearchByContainer } from '../containers/SearchByContainer';
+import { SortByContainer } from '../containers/SortByContainer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function Main({ moviesState }: { moviesState: MoviesState }) {
+export const Main = ({ movies, total }: MainProps) => {
   const classes = useStyles();
 
   return (
@@ -51,10 +52,8 @@ function Main({ moviesState }: { moviesState: MoviesState }) {
           <SortByContainer />
         </Grid>
       </div>
-      <ResultBar total={moviesState.total} />
-      <MoviesList movies={moviesState.data} />
+      <ResultBar total={total} />
+      <MoviesList movies={movies} />
     </Container>
   );
-}
-
-export default Main;
+};

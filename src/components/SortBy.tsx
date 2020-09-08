@@ -3,7 +3,7 @@ import React from 'react';
 import { Grid, createStyles, Theme, makeStyles } from '@material-ui/core';
 
 import SortSelect from './SortSelect';
-import { SortOptions } from '../typings';
+import { SortOptions, SortByProps, SortOrder } from '../typings';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,19 +17,13 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function SortBy({
+export const SortBy = ({
   sortBy,
   sortOptions,
-  setSortBy,
   sortOrder,
-  setSortOrder,
-}: {
-  sortBy: keyof SortOptions;
-  sortOptions: SortOptions;
-  setSortBy: Function;
-  sortOrder: string;
-  setSortOrder: Function;
-}) {
+  handleSortBy,
+  handleSortOrder,
+}: SortByProps) => {
   const classes = useStyles();
 
   return (
@@ -38,7 +32,9 @@ function SortBy({
         <SortSelect
           label="Sort by"
           value={sortBy}
-          setValue={(value: string) => setSortBy(value)}
+          handleValue={(sortOption: keyof SortOptions) =>
+            handleSortBy(sortOption)
+          }
           items={sortOptions}
         />
       </Grid>
@@ -46,12 +42,12 @@ function SortBy({
         <SortSelect
           label="Sort order"
           value={sortOrder}
-          setValue={(value: string) => setSortOrder(value)}
+          handleValue={(sortOrder: keyof SortOrder) =>
+            handleSortOrder(sortOrder)
+          }
           items={{ desc: 'Descending', asc: 'Ascending' }}
         />
       </Grid>
     </React.Fragment>
   );
-}
-
-export default SortBy;
+};

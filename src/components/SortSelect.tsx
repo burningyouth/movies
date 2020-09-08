@@ -5,6 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
+import { SortSelectProps } from '../typings';
 
 const useStyles = makeStyles({
   root: {
@@ -13,19 +14,9 @@ const useStyles = makeStyles({
   },
 });
 
-function SortSelect({
-  items,
-  value,
-  setValue,
-  label,
-}: {
-  items: Object;
-  value: string;
-  setValue: Function;
-  label: string;
-}) {
+function SortSelect({ items, value, handleValue, label }: SortSelectProps) {
   const { root } = useStyles();
-  const menuItems = Object.keys(items).map((key: string) => {
+  const menuItems = Object.keys(items).map((key) => {
     //@ts-ignore
     const item = items[key];
     return (
@@ -41,7 +32,7 @@ function SortSelect({
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => handleValue(e.target.value)}
       >
         {menuItems}
       </Select>

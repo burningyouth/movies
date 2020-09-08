@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { SearchBarProps } from '../typings';
 
 const useStyles = makeStyles({
   root: {
@@ -22,18 +23,17 @@ const useStyles = makeStyles({
   },
 });
 
-function SearchBar({ query, setQuery }: { query: string; setQuery: Function }) {
+export const SearchBar = ({ query, handleQuery }: SearchBarProps) => {
   const classes = useStyles();
-  const [queryValue, setQueryValue] = useState(query);
+  const [queryState, setQuery] = useState(query);
   return (
     <React.Fragment>
       <form
-        action={`/search/${queryValue}`}
         noValidate
         autoComplete="off"
         onSubmit={(e) => {
           e.preventDefault();
-          setQuery(queryValue);
+          handleQuery(queryState);
         }}
       >
         <Grid
@@ -45,11 +45,11 @@ function SearchBar({ query, setQuery }: { query: string; setQuery: Function }) {
           <Grid item xs={8} sm={9}>
             <TextField
               label="Search"
-              value={queryValue}
+              value={queryState}
               className={classes.textField}
               onChange={(e) => {
                 e.preventDefault();
-                setQueryValue(e.target.value);
+                setQuery(e.target.value);
               }}
             />
           </Grid>
@@ -67,6 +67,4 @@ function SearchBar({ query, setQuery }: { query: string; setQuery: Function }) {
       </form>
     </React.Fragment>
   );
-}
-
-export default SearchBar;
+};

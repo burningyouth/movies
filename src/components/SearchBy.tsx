@@ -8,6 +8,8 @@ import {
   Button,
 } from '@material-ui/core';
 
+import { SearchByProps } from '../typings';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
@@ -23,13 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function SearchBy({
-  searchBy,
-  setSearchBy,
-}: {
-  searchBy: string;
-  setSearchBy: Function;
-}) {
+export const SearchBy = ({ searchBy, handleSearchBy }: SearchByProps) => {
   const classes = useStyles();
 
   return (
@@ -39,7 +35,7 @@ function SearchBy({
           variant={searchBy === 'title' ? 'contained' : 'outlined'}
           color="primary"
           className={classes.button}
-          onClick={() => setSearchBy('title')}
+          onClick={() => handleSearchBy('title')}
         >
           Title
         </Button>
@@ -49,13 +45,11 @@ function SearchBy({
           variant={searchBy === 'genres' ? 'contained' : 'outlined'}
           color="primary"
           className={classes.button}
-          onClick={() => setSearchBy('genres')}
+          onClick={() => handleSearchBy('genres')}
         >
           Genre
         </Button>
       </Grid>
     </React.Fragment>
   );
-}
-
-export default SearchBy;
+};

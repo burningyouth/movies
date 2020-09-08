@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '..';
-import Main from '../components/Main';
-import Error from '../components/Error';
+import { RootState } from '../typings';
+import { Main } from '../components/Main';
+import { Error } from '../components/Error';
+import { CenteredBackdrop } from '../components/CenteredBackdrop';
 
-function MainContainer() {
+export const MainContainer = () => {
   const appState = useSelector((state: RootState) => state);
 
   useEffect(() => {
@@ -18,11 +19,10 @@ function MainContainer() {
     }
   }, [appState.movieDetail.data.id]);
 
-  document.title = 'Movies';
+  if (!appState.movies.data[0] && appState.movies.isFetching)
+    return <CenteredBackdrop open={true} />;
 
   if (appState.movies.error) return <Error message={appState.movies.error} />;
 
-  return <Main moviesState={appState.movies} />;
-}
-
-export default MainContainer;
+  return <Main movies={appState.movies.data} total={appState.movies.total} />;
+};

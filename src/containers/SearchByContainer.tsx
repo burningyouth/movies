@@ -1,19 +1,19 @@
 import React from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { searchByUpdate } from '../actions/actions';
-import SearchBy from '../components/SearchBy';
-import { RootState } from '..';
+import { searchByUpdate } from '../actions';
+import { SearchBy } from '../components/SearchBy';
+import { RootState, SearchBy as SearchByType } from '../typings';
 
-function SearchByContainer() {
+export const SearchByContainer = () => {
   const dispatch = useDispatch();
-  const searchInfo = useSelector((state: RootState) => state.searchInfo);
+  const searchBy = useSelector((state: RootState) => state.searchInfo.searchBy);
   return (
     <SearchBy
-      searchBy={searchInfo.searchBy}
-      setSearchBy={(searchBy: string) => dispatch(searchByUpdate(searchBy))}
+      searchBy={searchBy}
+      handleSearchBy={(searchBy: SearchByType) =>
+        dispatch(searchByUpdate(searchBy))
+      }
     />
   );
-}
-
-export default SearchByContainer;
+};

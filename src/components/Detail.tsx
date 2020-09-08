@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 
 import { CardMedia, Theme, createStyles } from '@material-ui/core';
-import { MovieEntity } from '../typings';
+import { DetailProps } from '../typings';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,13 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-function Detail({
-  movie,
-  setQuery,
-}: {
-  movie: MovieEntity;
-  setQuery: Function;
-}) {
+export const Detail = ({ movie, handleQuery }: DetailProps) => {
   const classes = useStyles();
 
   const { media } = makeStyles((theme: Theme) =>
@@ -64,44 +58,6 @@ function Detail({
     }),
   )();
 
-  const overview = movie.overview && (
-    <Typography
-      variant="body2"
-      color="textSecondary"
-      component="p"
-      className={classes.gutterBottom}
-    >
-      {movie.overview}
-    </Typography>
-  );
-
-  const tagline = movie.tagline && (
-    <Typography
-      className={classes.tagline}
-      variant="h6"
-      color="textSecondary"
-      component="h2"
-    >
-      {movie.tagline}
-    </Typography>
-  );
-
-  let genresComponents;
-
-  if (Array.isArray(movie.genres))
-    genresComponents = movie.genres.map((genre) => {
-      return (
-        <Link
-          to="/"
-          onClick={() => setQuery(genre)}
-          key={genre}
-          className={classes.link}
-        >
-          <Chip label={genre} className={classes.chip} />
-        </Link>
-      );
-    });
-
   return (
     <Container maxWidth="lg">
       <Grid container spacing={3} className={classes.root}>
@@ -117,9 +73,27 @@ function Detail({
             <Typography variant="h4" component="h1">
               {movie.title}
             </Typography>
-            {tagline}
+            {movie.tagline && (
+              <Typography
+                className={classes.tagline}
+                variant="h6"
+                color="textSecondary"
+                component="h2"
+              >
+                {movie.tagline}
+              </Typography>
+            )}
           </div>
-          {overview}
+          {movie.overview && (
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              component="p"
+              className={classes.gutterBottom}
+            >
+              {movie.overview}
+            </Typography>
+          )}
           <Typography
             gutterBottom
             variant="body2"
@@ -159,11 +133,23 @@ function Detail({
               ? `${movie.vote_average} / 10 (${movie.vote_count} votes)`
               : 'Not enough votes'}
           </Typography>
-          <div className={classes.genresWrapper}>{genresComponents}</div>
+          <div className={classes.genresWrapper}>
+            {Array.isArray(movie.genres) &&
+              movie.genres.map((genre) => (
+                <Link
+                  to="/"
+                  onClick={() => handleQuery(genre)}
+                  key={genre}
+                  className={classes.link}
+                >
+                  <Chip label={genre} className={classes.chip} />
+                </Link>
+              ))}
+          </div>
         </Grid>
       </Grid>
     </Container>
   );
-}
+};
 
 export default Detail;

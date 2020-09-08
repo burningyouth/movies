@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-function ResultBar({ total }: { total: number }) {
+export const ResultBar = ({ total }: { total: number }) => {
   const { caption, root } = useStyles();
   return (
     <Box className={root}>
@@ -23,6 +23,4 @@ function ResultBar({ total }: { total: number }) {
       </Typography>
     </Box>
   );
-}
-
-export default ResultBar;
+};

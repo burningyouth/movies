@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Header() {
+export const Header = () => {
   const { link } = useStyles();
   return (
     <AppBar position="static">
@@ -24,6 +24,4 @@ function Header() {
       </Toolbar>
     </AppBar>
   );
-}
-
-export default Header;
+};

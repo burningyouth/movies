@@ -15,13 +15,11 @@ const useStyles = makeStyles({
   },
 });
 
-function CenteredProgress() {
+export const CenteredProgress = () => {
   const { root } = useStyles();
   return (
     <div className={root}>
       <CircularProgress />
     </div>
   );
-}
-
-export default CenteredProgress;
+};
