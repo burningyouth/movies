@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -12,6 +12,10 @@ const useStyles = makeStyles({
   },
   textField: {
     width: '100%',
+    '& p': {
+      position: 'absolute',
+      bottom: '-30px',
+    },
   },
   button: {
     width: '100%',
@@ -25,7 +29,19 @@ const useStyles = makeStyles({
 
 export const SearchBar = ({ query, handleQuery }: SearchBarProps) => {
   const classes = useStyles();
-  const [queryState, setQuery] = useState(query);
+  const [error, setError] = useState('');
+  const [queryState, queryDispatch] = useReducer(
+    (state: any, action: { query: string }) => {
+      let regex = /[*?&^%$@!()#|]/;
+      setError('');
+      if (action.query.match(regex)) {
+        setError("Don't use special characters!");
+        return action.query.replace(/[*?&^%$@!()#|]/, '');
+      }
+      return action.query;
+    },
+    query,
+  );
   return (
     <React.Fragment>
       <form
@@ -47,9 +63,11 @@ export const SearchBar = ({ query, handleQuery }: SearchBarProps) => {
               label="Search"
               value={queryState}
               className={classes.textField}
+              error={error ? true : false}
+              helperText={error}
               onChange={(e) => {
                 e.preventDefault();
-                setQuery(e.target.value);
+                queryDispatch({ query: e.target.value });
               }}
             />
           </Grid>

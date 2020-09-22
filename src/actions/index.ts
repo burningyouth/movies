@@ -127,15 +127,19 @@ export const fetchMovies = (page: number = 1): AppThunk => {
       : `https://reactjs-cdp.herokuapp.com/movies?searchBy=${searchBy}&sortOrder=${sortOrder}&sortBy=${sortBy}${pageParams}`;
 
     return fetch(fetchUrl)
-      .then((response) => response.json())
       .then(
         (response) => {
-          dispatch(fetchMoviesSuccess(response));
+          if (response.ok) return response.json();
+          return `Error: ${response.status} ${response.statusText}`;
         },
         (error) => {
           dispatch(fetchMoviesFailure(error));
         },
-      );
+      )
+      .then((data) => {
+        if (typeof data === 'string') return dispatch(fetchMoviesFailure(data));
+        dispatch(fetchMoviesSuccess(data));
+      });
   };
 };
 
@@ -154,14 +158,18 @@ export const fetchMovie = (id: number): AppThunk => {
 
     const fetchUrl = `https://reactjs-cdp.herokuapp.com/movies/${id}`;
     return fetch(fetchUrl)
-      .then((response) => response.json())
       .then(
         (response) => {
-          dispatch(fetchMovieSuccess(response));
+          if (response.ok) return response.json();
+          return `Error: ${response.status} ${response.statusText}`;
         },
         (error) => {
           dispatch(fetchMovieFailure(error));
         },
-      );
+      )
+      .then((data) => {
+        if (typeof data === 'string') return dispatch(fetchMovieFailure(data));
+        dispatch(fetchMovieSuccess(data));
+      });
   };
 };

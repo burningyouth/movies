@@ -10,7 +10,7 @@ import { SortSelectProps } from '../typings';
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    marginTop: 20,
+    marginTop: 30,
   },
 });
 

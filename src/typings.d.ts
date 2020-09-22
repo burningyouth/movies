@@ -3,6 +3,20 @@ import { ThunkAction } from 'redux-thunk';
 
 import { rootReducer } from './reducers';
 
+export type ResponseFromAPI = {
+  type: string;
+  url: string;
+  redirected: boolean;
+  status: number;
+  ok: boolean;
+  statusText: string;
+  headers: {};
+  body: {
+    locked: boolean;
+  };
+  bodyUsed: boolean;
+};
+
 export type MovieEntity = {
   id: number;
   title: string;
