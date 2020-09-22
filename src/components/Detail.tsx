@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const Detail = ({ movie, handleQuery }: DetailProps) => {
+export default function Detail({ movie, handleQuery }: DetailProps) {
   const classes = useStyles();
 
   const { media } = makeStyles((theme: Theme) =>
@@ -150,6 +150,4 @@ export const Detail = ({ movie, handleQuery }: DetailProps) => {
       </Grid>
     </Container>
   );
-};
-
-export default Detail;
+}

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const Main = ({ movies, total }: MainProps) => {
+export default function Main({ movies, total }: MainProps) {
   const classes = useStyles();
 
   return (
@@ -56,4 +56,4 @@ export const Main = ({ movies, total }: MainProps) => {
       <MoviesList movies={movies} />
     </Container>
   );
-};
+}
