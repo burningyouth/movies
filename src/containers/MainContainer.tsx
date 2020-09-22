@@ -19,10 +19,9 @@ export const MainContainer = () => {
     }
   }, [appState.movieDetail.data.id]);
 
+  if (appState.movies.error) return <Error message={appState.movies.error} />;
   if (!appState.movies.data[0] && appState.movies.isFetching)
     return <CenteredBackdrop open={true} />;
-
-  if (appState.movies.error) return <Error message={appState.movies.error} />;
 
   return <Main movies={appState.movies.data} total={appState.movies.total} />;
 };

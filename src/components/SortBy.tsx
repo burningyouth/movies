@@ -35,7 +35,7 @@ export const SortBy = ({
           handleValue={(sortOption: keyof SortOptions) =>
             handleSortBy(sortOption)
           }
-          items={sortOptions}
+          sortOptions={sortOptions}
         />
       </Grid>
       <Grid item xs={12} sm={4}>
@@ -45,7 +45,7 @@ export const SortBy = ({
           handleValue={(sortOrder: keyof SortOrder) =>
             handleSortOrder(sortOrder)
           }
-          items={{ desc: 'Descending', asc: 'Ascending' }}
+          sortOrder={{ desc: 'Descending', asc: 'Ascending' }}
         />
       </Grid>
     </React.Fragment>

@@ -14,26 +14,36 @@ const useStyles = makeStyles({
   },
 });
 
-function SortSelect({ items, value, handleValue, label }: SortSelectProps) {
+function SortSelect({
+  sortOptions,
+  sortOrder,
+  value,
+  handleValue,
+  label,
+}: SortSelectProps) {
   const { root } = useStyles();
-  const menuItems = Object.keys(items).map((key) => {
-    //@ts-ignore
-    const item = items[key];
-    return (
-      <MenuItem value={key} key={key}>
-        {item}
-      </MenuItem>
-    );
-  });
+  let menuItems;
+  if (sortOptions) {
+    menuItems = Object.keys(sortOptions).map((key) => {
+      return (
+        <MenuItem value={key} key={key}>
+          {sortOptions[key]}
+        </MenuItem>
+      );
+    });
+  } else if (sortOrder) {
+    menuItems = Object.keys(sortOrder).map((key) => {
+      return (
+        <MenuItem value={key} key={key}>
+          {sortOrder[key]}
+        </MenuItem>
+      );
+    });
+  }
   return (
     <FormControl className={root}>
       <InputLabel id="demo-simple-select-label">{label}</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={value}
-        onChange={(e) => handleValue(e.target.value)}
-      >
+      <Select value={value} onChange={(e) => handleValue(e.target.value)}>
         {menuItems}
       </Select>
     </FormControl>

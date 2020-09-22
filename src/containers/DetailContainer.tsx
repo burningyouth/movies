@@ -10,7 +10,7 @@ import { fetchMovie, queryUpdate, searchByUpdate } from '../actions';
 import { RootState } from '../typings';
 
 export const DetailContainer = () => {
-  const { id } = useParams();
+  const { id }: { id: string } = useParams();
   const dispatch = useDispatch();
   const movieDetail = useSelector((state: RootState) => state.movieDetail);
 
@@ -23,9 +23,9 @@ export const DetailContainer = () => {
       document.title = movieDetail.data.title;
   }, [movieDetail.data.title, movieDetail.isFetching]);
 
+  if (movieDetail.error) return <Error message={movieDetail.error} />;
   if (movieDetail.isFetching || !movieDetail.data.id)
     return <CenteredBackdrop open={true} />;
-  if (movieDetail.error) return <Error message={movieDetail.error} />;
 
   return (
     <Detail

@@ -195,7 +195,8 @@ export type SearchByProps = DefaultProps & {
 };
 
 export type SortSelectProps = DefaultProps & {
-  readonly items: SortOrder | SortOptions;
+  readonly sortOrder?: SortOrder;
+  readonly sortOptions?: SortOptions;
   readonly label: string;
   readonly value: string;
   readonly handleValue: (
