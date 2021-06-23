@@ -4,7 +4,6 @@ import { RootState } from '../typings';
 import { Error } from '../components/Error';
 import { CenteredBackdrop } from '../components/CenteredBackdrop';
 
-//@ts-ignore
 const Main = lazy(() => import('../components/Main'));
 
 export const MainContainer = () => {

@@ -8,7 +8,6 @@ import { CenteredBackdrop } from '../components/CenteredBackdrop';
 import { fetchMovie, queryUpdate, searchByUpdate } from '../actions';
 import { RootState } from '../typings';
 
-//@ts-ignore
 const Detail = lazy(() => import('../components/Detail'));
 
 export const DetailContainer = () => {
